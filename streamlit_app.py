@@ -214,10 +214,10 @@ with st.sidebar:
     """, unsafe_allow_html=True)
 
     st.markdown("#### 📅 Rentang Grafik")
-    day_range = st.slider("Tampilkan data (hari terakhir)", 7, 365, 30, 7)
+    day_range = st.number_input("Tampilkan data (hari terakhir)", min_value=7, max_value=365, value=30, step=7)
 
     st.markdown("#### 🔮 Prediksi ke Depan")
-    future_days = st.slider("Berapa hari ke depan?", 1, 14, 7, 1)
+    future_days = st.number_input("Berapa hari ke depan?", min_value=1, max_value=14, value=7, step=1)
 
     st.markdown("<hr style='border-color:#21262d;margin:14px 0;'>", unsafe_allow_html=True)
 
@@ -431,35 +431,41 @@ mae         = df_pred["abs_error"].mean()
 mape_val    = (df_pred["abs_error"] / df_pred["aktual"].replace(0, np.nan)).mean() * 100
 last_actual = int(df_pred["aktual"].iloc[-1])
 next_pred   = int(df_future["forecast"].iloc[0]) if len(df_future) else int(df_pred["prediksi"].iloc[-1])
-delta_pct   = ((next_pred - last_actual) / max(last_actual, 1)) * 100
+next_date   = df_future["tanggal"].iloc[0].strftime("%d %b %Y") if len(df_future) else "-"
+last_date_str = df_pred["tanggal"].iloc[-1].strftime("%d %b %Y")
+delta_abs   = next_pred - last_actual
+delta_pct   = (delta_abs / max(last_actual, 1)) * 100
 dclass      = "cg" if delta_pct >= 0 else "cr"
-darr        = "▲" if delta_pct >= 0 else "▼"
+darr        = "⬆️ lebih banyak" if delta_pct >= 0 else "⬇️ lebih sedikit"
+d_min_str   = df_pred["tanggal"].min().strftime("%b %Y")
+d_max_str   = df_pred["tanggal"].max().strftime("%b %Y")
 
 st.markdown(f"""
 <div class="kpi-wrap">
   <div class="kpi">
     <div class="kpi-icon">🔮</div>
-    <div class="kpi-lbl">Prediksi Besok</div>
-    <div class="kpi-val">{next_pred:,}</div>
-    <div class="kpi-sub {dclass}">{darr} {abs(delta_pct):.1f}% vs hari ini ({last_actual:,})</div>
+    <div class="kpi-lbl">Perkiraan Kunjungan Besok</div>
+    <div class="kpi-val">{next_pred:,} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-sub {dclass}">{darr} {abs(delta_pct):.0f}% dibanding hari ini ({last_actual:,} orang)</div>
+    <div style='font-size:.7rem;color:#484f58;margin-top:4px;'>{next_date}</div>
   </div>
   <div class="kpi">
-    <div class="kpi-icon">📈</div>
-    <div class="kpi-lbl">Rata-rata Harian</div>
-    <div class="kpi-val">{df_pred['aktual'].mean():.0f}</div>
-    <div class="kpi-sub cm">dari {len(df_pred):,} hari</div>
+    <div class="kpi-icon">📅</div>
+    <div class="kpi-lbl">Rata-rata Kunjungan per Hari</div>
+    <div class="kpi-val">{df_pred['aktual'].mean():.0f} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-sub cm">data dari {d_min_str} – {d_max_str} ({len(df_pred):,} hari)</div>
   </div>
   <div class="kpi">
     <div class="kpi-icon">🎯</div>
-    <div class="kpi-lbl">Rata-rata Kesalahan</div>
-    <div class="kpi-val">{mae:.1f}</div>
-    <div class="kpi-sub {'cg' if mae<20 else 'cb' if mae<40 else 'cr'}">{'Sangat akurat' if mae<20 else 'Cukup akurat' if mae<40 else 'Perlu peningkatan'}</div>
+    <div class="kpi-lbl">Rata-rata Kesalahan Prediksi</div>
+    <div class="kpi-val">±{mae:.0f} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-sub {'cg' if mae<20 else 'cb' if mae<40 else 'cr'}">{'Sangat akurat ✔️' if mae<20 else 'Cukup akurat' if mae<40 else 'Perlu peningkatan'}</div>
   </div>
   <div class="kpi">
-    <div class="kpi-icon">📊</div>
-    <div class="kpi-lbl">Tingkat Kebenaran</div>
+    <div class="kpi-icon">✅</div>
+    <div class="kpi-lbl">Seberapa Sering Prediksi Benar</div>
     <div class="kpi-val">{"N/A" if np.isnan(mape_val) else f"{100-mape_val:.1f}%"}</div>
-    <div class="kpi-sub cm">{"" if np.isnan(mape_val) else f"rata-rata meleset {mape_val:.1f}%"}</div>
+    <div class="kpi-sub cm">{"" if np.isnan(mape_val) else f"dari 100 hari, prediksi tepat sekitar {100-mape_val:.0f} hari"}</div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -478,27 +484,27 @@ fig = go.Figure()
 
 fig.add_trace(go.Scatter(
     x=df_chart["tanggal"], y=df_chart["aktual"],
-    mode="lines+markers", name="Aktual",
+    mode="lines+markers", name="🟢 Kunjungan Nyata",
     line=dict(color="#3fb950", width=2.5),
     marker=dict(size=4, color="#3fb950"),
-    hovertemplate="<b>%{x|%d %b %Y}</b><br>Aktual: <b>%{y:,}</b><extra></extra>",
+    hovertemplate="<b>%{x|%d %b %Y}</b><br>Kunjungan Nyata: <b>%{y:,} orang</b><extra></extra>",
 ))
 fig.add_trace(go.Scatter(
     x=df_chart["tanggal"], y=df_chart["prediksi"],
-    mode="lines+markers", name="Prediksi LSTM",
+    mode="lines+markers", name="🔵 Hasil Prediksi (sudah terjadi)",
     line=dict(color="#58a6ff", width=2.5, dash="dot"),
     marker=dict(size=4, color="#58a6ff", symbol="diamond"),
-    hovertemplate="<b>%{x|%d %b %Y}</b><br>Prediksi: <b>%{y:,}</b><extra></extra>",
+    hovertemplate="<b>%{x|%d %b %Y}</b><br>Prediksi model: <b>%{y:,} orang</b><extra></extra>",
 ))
 
 fx = [df_pred["tanggal"].max()] + list(df_future["tanggal"])
 fy = [int(df_pred["prediksi"].iloc[-1])] + list(df_future["forecast"])
 fig.add_trace(go.Scatter(
     x=fx, y=fy, mode="lines+markers",
-    name=f"Prediksi {future_days} Hari ke Depan",
+    name=f"🟠 Perkiraan {future_days} Hari ke Depan (belum terjadi)",
     line=dict(color="#f78166", width=2.5, dash="dash"),
     marker=dict(size=7, color="#f78166", symbol="star"),
-    hovertemplate="<b>%{x|%d %b %Y}</b><br>Prediksi ke Depan: <b>%{y:,}</b><extra></extra>",
+    hovertemplate="<b>%{x|%d %b %Y}</b><br>Perkiraan: <b>%{y:,} orang</b><extra></extra>",
 ))
 fig.add_vline(
     x=df_pred["tanggal"].max().timestamp()*1000,
@@ -519,8 +525,11 @@ fig.update_layout(
 
 st.markdown(f"""
 <div class="chart-box">
-    <div class="chart-hdr">📈 Grafik Kunjungan — {day_range} Hari Terakhir + Prediksi {future_days} Hari ke Depan</div>
-    <div class="chart-sub">Kunjungan nyata (hijau) · Hasil prediksi model (biru) · Prediksi ke depan (oranye)</div>
+    <div class="chart-hdr">📈 Grafik Kunjungan Pelanggan — {day_range} Hari Terakhir</div>
+    <div class="chart-sub">
+        🟢 Kunjungan nyata &nbsp;·&nbsp; 🔵 Hasil prediksi model (untuk hari yang sudah lewat) &nbsp;·&nbsp; 🟠 Perkiraan ke depan (belum terjadi)<br>
+        <span style='color:#484f58;font-size:.72rem;'>Garis biru menunjukkan seberapa akurat model memprediksi. Garis oranye adalah perkiraan hari-hari mendatang.</span>
+    </div>
 </div>
 """, unsafe_allow_html=True)
 st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
