@@ -218,7 +218,6 @@ with st.sidebar:
 
     st.markdown("#### 🔮 Prediksi ke Depan")
     future_days = st.slider("Berapa hari ke depan?", 1, 14, 7, 1)
-    show_band   = st.toggle("Tampilkan rentang perkiraan ±10%", value=True)
 
     st.markdown("<hr style='border-color:#21262d;margin:14px 0;'>", unsafe_allow_html=True)
 
@@ -476,14 +475,6 @@ df_chart = df_pred[df_pred["tanggal"] >= cutoff].copy()
 
 fig = go.Figure()
 
-if show_band:
-    u = [p*1.10 for p in df_chart["prediksi"]]
-    l = [p*0.90 for p in df_chart["prediksi"]]
-    fig.add_trace(go.Scatter(
-        x=list(df_chart["tanggal"])+list(df_chart["tanggal"])[::-1], y=u+l[::-1],
-        fill="toself", fillcolor="rgba(88,166,255,0.06)",
-        line=dict(color="rgba(0,0,0,0)"), name="Interval ±10%", showlegend=True, hoverinfo="skip",
-    ))
 
 fig.add_trace(go.Scatter(
     x=df_chart["tanggal"], y=df_chart["aktual"],
@@ -549,10 +540,8 @@ with ta:
     def warnai_selisih(val):
         maks = df_tbl_sorted["Selisih Mutlak"].max() or 1
         intens = min(val / maks, 1.0)
-        r = int(255)
         g = int(255 * (1 - intens * 0.7))
-        b = int(255 * (1 - intens * 0.7))
-        return f"background-color: rgba({r},{g},{b},0.25); color: #e6edf3"
+        return f"background-color: rgba(255,{g},{g},0.35)"
 
     st.dataframe(
         df_tbl_sorted
