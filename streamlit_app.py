@@ -544,12 +544,23 @@ with ta:
     df_tbl = df_chart[["tanggal","aktual","prediksi","error","abs_error"]].copy()
     df_tbl["tanggal"] = df_tbl["tanggal"].dt.strftime("%d %b %Y")
     df_tbl.columns    = ["Tanggal","Kunjungan Nyata","Hasil Prediksi","Selisih","Selisih Mutlak"]
+    df_tbl_sorted = df_tbl.sort_values("Tanggal", ascending=False).reset_index(drop=True)
+
+    def warnai_selisih(val):
+        maks = df_tbl_sorted["Selisih Mutlak"].max() or 1
+        intens = min(val / maks, 1.0)
+        r = int(255)
+        g = int(255 * (1 - intens * 0.7))
+        b = int(255 * (1 - intens * 0.7))
+        return f"background-color: rgba({r},{g},{b},0.25); color: #e6edf3"
+
     st.dataframe(
-        df_tbl.sort_values("Tanggal",ascending=False).reset_index(drop=True)
+        df_tbl_sorted
               .style.format({"Kunjungan Nyata":"{:,}","Hasil Prediksi":"{:,}","Selisih":"{:+,}","Selisih Mutlak":"{:,}"})
-              .background_gradient(subset=["Selisih Mutlak"], cmap="YlOrRd", low=.1, high=.9),
+              .map(warnai_selisih, subset=["Selisih Mutlak"]),
         use_container_width=True, height=340, hide_index=True,
     )
+
 
 with tb:
     dfs = df_future.copy()
