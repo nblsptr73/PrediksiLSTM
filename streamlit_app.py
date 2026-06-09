@@ -30,49 +30,54 @@ ADMIN_USERS     = {"admin1": "admin123"}
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-html,body,[class*="css"]{font-family:'Inter',sans-serif;}
-.stApp{background:linear-gradient(135deg,#0d1117 0%,#161b27 60%,#0d1117 100%);color:#e6edf3;}
+html,body,[class*="css"]{
+    font-family:'Inter',sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+.stApp{background:linear-gradient(135deg,#0d1117 0%,#161b27 60%,#0d1117 100%);color:#f0f6fc;}
 #MainMenu,footer{visibility:hidden;}
 [data-testid="stHeader"]{background:transparent !important;}
 
-[data-testid="stSidebar"]{background:linear-gradient(180deg,#0d1117 0%,#161b27 100%);border-right:1px solid #21262d;}
-[data-testid="stSidebar"] *{color:#c9d1d9 !important;}
-[data-testid="stSidebar"] h3{color:#58a6ff !important;}
+[data-testid="stSidebar"]{background:linear-gradient(180deg,#0d1117 0%,#161b27 100%);border-right:1px solid #30363d;}
+[data-testid="stSidebar"] *{color:#e6edf3 !important;}
+[data-testid="stSidebar"] h3{color:#79c0ff !important;}
 
 .hero{background:linear-gradient(135deg,#0e2040 0%,#1a3a6b 50%,#0e2040 100%);border:1px solid #2d4a6b;border-radius:18px;padding:36px 44px;margin-bottom:24px;position:relative;overflow:hidden;}
-.hero-tag{display:inline-block;background:rgba(88,166,255,.15);border:1px solid rgba(88,166,255,.3);color:#58a6ff;font-size:.72rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
-.hero-title{font-size:2.4rem;font-weight:900;line-height:1.15;margin-bottom:10px;background:linear-gradient(90deg,#79c0ff,#a5d6ff,#cae8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.hero-sub{font-size:.92rem;color:#8b949e;margin:0;line-height:1.6;}
+.hero-tag{display:inline-block;background:rgba(88,166,255,.2);border:1px solid rgba(88,166,255,.4);color:#a5d6ff;font-size:.75rem;font-weight:700;padding:4px 12px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.hero-title{font-size:2.4rem;font-weight:900;line-height:1.15;margin-bottom:10px;color:#cae8ff;}
+.hero-sub{font-size:.95rem;color:#e6edf3;margin:0;line-height:1.6;font-weight:500;}
 
 .kpi-wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.kpi{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #21262d;border-radius:16px;padding:20px 22px;transition:all .2s;}
-.kpi:hover{border-color:#388bfd;transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,139,253,.12);}
+.kpi{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #30363d;border-radius:16px;padding:20px 22px;transition:all .2s;}
+.kpi:hover{border-color:#58a6ff;transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,139,253,.15);}
 .kpi-icon{font-size:1.4rem;margin-bottom:8px;}
-.kpi-lbl{font-size:.7rem;font-weight:600;color:#8b949e;text-transform:uppercase;letter-spacing:.9px;margin-bottom:6px;}
-.kpi-val{font-size:2rem;font-weight:800;color:#e6edf3;line-height:1;margin-bottom:5px;}
-.kpi-sub{font-size:.78rem;font-weight:500;}
-.cg{color:#3fb950;}.cr{color:#f85149;}.cb{color:#58a6ff;}.cm{color:#8b949e;}
+.kpi-lbl{font-size:.75rem;font-weight:700;color:#c9d1d9;text-transform:uppercase;letter-spacing:.9px;margin-bottom:6px;}
+.kpi-val{font-size:2rem;font-weight:800;color:#ffffff;line-height:1;margin-bottom:5px;}
+.kpi-sub{font-size:.8rem;font-weight:600;}
+.cg{color:#56d364;}.cr{color:#ff7b72;}.cb{color:#79c0ff;}.cm{color:#c9d1d9;}
 
-.chart-box{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #21262d;border-radius:16px;padding:22px 26px;margin-bottom:16px;}
-.chart-hdr{font-size:1rem;font-weight:700;color:#e6edf3;margin-bottom:3px;}
-.chart-sub{font-size:.78rem;color:#8b949e;}
+.chart-box{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #30363d;border-radius:16px;padding:22px 26px;margin-bottom:16px;}
+.chart-hdr{font-size:1.05rem;font-weight:700;color:#ffffff;margin-bottom:3px;}
+.chart-sub{font-size:.85rem;color:#c9d1d9;font-weight:500;}
 
-.adm-card{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #21262d;border-radius:14px;padding:18px 22px;margin-bottom:14px;}
-.adm-title{font-size:.8rem;font-weight:700;color:#58a6ff;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;}
+.adm-card{background:linear-gradient(145deg,#161b27,#1c2333);border:1px solid #30363d;border-radius:14px;padding:18px 22px;margin-bottom:14px;}
+.adm-title{font-size:.85rem;font-weight:700;color:#79c0ff;text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;}
 
-.al-i{background:rgba(56,139,253,.1);border:1px solid rgba(56,139,253,.25);border-left:3px solid #388bfd;border-radius:8px;padding:10px 14px;color:#a8c8ff;font-size:.83rem;margin-bottom:12px;}
-.al-s{background:rgba(63,185,80,.1);border:1px solid rgba(63,185,80,.25);border-left:3px solid #3fb950;border-radius:8px;padding:10px 14px;color:#a8e6af;font-size:.83rem;margin-bottom:12px;}
-.al-w{background:rgba(210,153,34,.1);border:1px solid rgba(210,153,34,.25);border-left:3px solid #d2993b;border-radius:8px;padding:10px 14px;color:#e3c47a;font-size:.83rem;margin-bottom:12px;}
+.al-i{background:rgba(56,139,253,.15);border:1px solid rgba(56,139,253,.3);border-left:4px solid #58a6ff;border-radius:8px;padding:10px 14px;color:#cae8ff;font-size:.85rem;margin-bottom:12px;font-weight:500;}
+.al-s{background:rgba(63,185,80,.15);border:1px solid rgba(63,185,80,.3);border-left:4px solid #56d364;border-radius:8px;padding:10px 14px;color:#aff5b4;font-size:.85rem;margin-bottom:12px;font-weight:500;}
+.al-w{background:rgba(210,153,34,.15);border:1px solid rgba(210,153,34,.3);border-left:4px solid #e3b341;border-radius:8px;padding:10px 14px;color:#fce094;font-size:.85rem;margin-bottom:12px;font-weight:500;}
 
 .stTabs [data-baseweb="tab-list"]{background:#161b27;border-radius:10px;padding:4px;gap:4px;}
-.stTabs [data-baseweb="tab"]{color:#8b949e;border-radius:8px;font-weight:500;}
-.stTabs [aria-selected="true"]{background:rgba(56,139,253,.15)!important;color:#58a6ff!important;}
+.stTabs [data-baseweb="tab"]{color:#c9d1d9;border-radius:8px;font-weight:600;}
+.stTabs [aria-selected="true"]{background:rgba(56,139,253,.2)!important;color:#79c0ff!important;font-weight:700;}
 
-.stButton>button{background:linear-gradient(135deg,#1f6feb,#388bfd)!important;color:#fff!important;border:none!important;border-radius:10px!important;font-weight:700!important;transition:all .2s!important;}
-.stButton>button:hover{transform:translateY(-1px)!important;box-shadow:0 6px 20px rgba(56,139,253,.3)!important;}
+.stButton>button{background:linear-gradient(135deg,#1f6feb,#388bfd)!important;color:#ffffff!important;border:none!important;border-radius:10px!important;font-weight:700!important;transition:all .2s!important;}
+.stButton>button:hover{transform:translateY(-1px)!important;box-shadow:0 6px 20px rgba(56,139,253,.4)!important;}
 
-.stTextInput input,.stNumberInput input,.stDateInput input{background:#1c2333!important;border:1px solid #30363d!important;color:#e6edf3!important;border-radius:8px!important;}
-.stSelectbox>div>div{background:#1c2333!important;border:1px solid #30363d!important;color:#e6edf3!important;border-radius:8px!important;}
+.stTextInput input,.stNumberInput input,.stDateInput input{background:#1c2333!important;border:1px solid #30363d!important;color:#ffffff!important;border-radius:8px!important;font-weight:500!important;}
+.stSelectbox>div>div{background:#1c2333!important;border:1px solid #30363d!important;color:#ffffff!important;border-radius:8px!important;font-weight:500!important;}
 </style>
 """, unsafe_allow_html=True)
 
@@ -207,10 +212,10 @@ with st.sidebar:
     st.markdown("""
     <div style='text-align:center;padding:18px 0 20px 0;'>
         <div style='font-size:2.6rem;'>🧊</div>
-        <div style='font-size:1.1rem;font-weight:800;color:#58a6ff;margin-top:6px;'>Mixue Predictor</div>
-        <div style='font-size:.73rem;color:#484f58;margin-top:4px;'>Sistem Prediksi Kunjungan</div>
+        <div style='font-size:1.1rem;font-weight:800;color:#79c0ff;margin-top:6px;'>Mixue Predictor</div>
+        <div style='font-size:.8rem;font-weight:500;color:#c9d1d9;margin-top:4px;'>Sistem Prediksi Kunjungan</div>
     </div>
-    <hr style='border-color:#21262d;margin:0 0 18px 0;'>
+    <hr style='border-color:#30363d;margin:0 0 18px 0;'>
     """, unsafe_allow_html=True)
 
     st.markdown("#### 📅 Rentang Grafik")
@@ -261,8 +266,8 @@ with st.sidebar:
                 st.markdown(f"<div class='{cls}'>{m}</div>", unsafe_allow_html=True)
 
     st.markdown("""
-    <hr style='border-color:#21262d;margin:14px 0;'>
-    <div style='text-align:center;font-size:.7rem;color:#30363d;'>
+    <hr style='border-color:#30363d;margin:14px 0;'>
+    <div style='text-align:center;font-size:.75rem;font-weight:500;color:#8b949e;'>
         LSTM · TensorFlow · Streamlit<br>© 2025 KP Semester 6
     </div>
     """, unsafe_allow_html=True)
@@ -328,8 +333,8 @@ if st.session_state["admin_in"]:
     <div style='display:flex;align-items:center;gap:10px;margin-bottom:16px;'>
         <div style='font-size:1.4rem;'>🛡️</div>
         <div>
-            <div style='font-size:1.1rem;font-weight:800;color:#e6edf3;'>Panel Admin</div>
-            <div style='font-size:.78rem;color:#8b949e;'>Kelola data kunjungan pelanggan</div>
+            <div style='font-size:1.1rem;font-weight:800;color:#ffffff;'>Panel Admin</div>
+            <div style='font-size:.85rem;font-weight:500;color:#c9d1d9;'>Kelola data kunjungan pelanggan</div>
         </div>
     </div>
     """, unsafe_allow_html=True)
@@ -445,20 +450,20 @@ st.markdown(f"""
   <div class="kpi">
     <div class="kpi-icon">🔮</div>
     <div class="kpi-lbl">Perkiraan Kunjungan Besok</div>
-    <div class="kpi-val">{next_pred:,} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-val">{next_pred:,} <span style='font-size:1rem;font-weight:500;color:#c9d1d9;'>orang</span></div>
     <div class="kpi-sub {dclass}">{darr} {abs(delta_pct):.0f}% dibanding hari ini ({last_actual:,} orang)</div>
-    <div style='font-size:.7rem;color:#484f58;margin-top:4px;'>{next_date}</div>
+    <div style='font-size:.75rem;font-weight:600;color:#79c0ff;margin-top:4px;'>{next_date}</div>
   </div>
   <div class="kpi">
     <div class="kpi-icon">📅</div>
     <div class="kpi-lbl">Rata-rata Kunjungan per Hari</div>
-    <div class="kpi-val">{df_pred['aktual'].mean():.0f} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-val">{df_pred['aktual'].mean():.0f} <span style='font-size:1rem;font-weight:500;color:#c9d1d9;'>orang</span></div>
     <div class="kpi-sub cm">data dari {d_min_str} – {d_max_str} ({len(df_pred):,} hari)</div>
   </div>
   <div class="kpi">
     <div class="kpi-icon">🎯</div>
     <div class="kpi-lbl">Rata-rata Kesalahan Prediksi</div>
-    <div class="kpi-val">±{mae:.0f} <span style='font-size:1rem;font-weight:400;color:#8b949e;'>orang</span></div>
+    <div class="kpi-val">±{mae:.0f} <span style='font-size:1rem;font-weight:500;color:#c9d1d9;'>orang</span></div>
     <div class="kpi-sub {'cg' if mae<20 else 'cb' if mae<40 else 'cr'}">{'Sangat akurat ✔️' if mae<20 else 'Cukup akurat' if mae<40 else 'Perlu peningkatan'}</div>
   </div>
   <div class="kpi">
@@ -508,16 +513,16 @@ fig.add_trace(go.Scatter(
 ))
 fig.add_vline(
     x=df_pred["tanggal"].max().timestamp()*1000,
-    line_dash="dash", line_color="rgba(255,255,255,0.12)", line_width=1.5,
-    annotation_text="Sekarang ▶", annotation_font_color="#8b949e", annotation_font_size=10,
+    line_dash="dash", line_color="rgba(255,255,255,0.2)", line_width=1.5,
+    annotation_text="Sekarang ▶", annotation_font_color="#c9d1d9", annotation_font_size=11,
 )
 fig.update_layout(
     paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)",
     font=dict(family="Inter", color="#c9d1d9"),
-    legend=dict(bgcolor="rgba(22,27,39,.85)", bordercolor="#21262d", borderwidth=1,
-                font=dict(size=11), orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-    xaxis=dict(gridcolor="#21262d", showgrid=True, zeroline=False, tickfont=dict(size=10)),
-    yaxis=dict(gridcolor="#21262d", showgrid=True, zeroline=False, title="Jumlah Pelanggan", tickfont=dict(size=10)),
+    legend=dict(bgcolor="rgba(22,27,39,.85)", bordercolor="#30363d", borderwidth=1,
+                font=dict(size=12, color="#e6edf3"), orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    xaxis=dict(gridcolor="#30363d", showgrid=True, zeroline=False, tickfont=dict(size=11, color="#c9d1d9")),
+    yaxis=dict(gridcolor="#30363d", showgrid=True, zeroline=False, title=dict(text="Jumlah Pelanggan", font=dict(color="#e6edf3")), tickfont=dict(size=11, color="#c9d1d9")),
     hovermode="x unified",
     hoverlabel=dict(bgcolor="#161b27", bordercolor="#21262d", font=dict(color="#e6edf3", size=12)),
     margin=dict(l=0,r=0,t=24,b=0), height=420,
@@ -528,7 +533,7 @@ st.markdown(f"""
     <div class="chart-hdr">📈 Grafik Kunjungan Pelanggan — {day_range} Hari Terakhir</div>
     <div class="chart-sub">
         🟢 Kunjungan nyata &nbsp;·&nbsp; 🔵 Hasil prediksi model (untuk hari yang sudah lewat) &nbsp;·&nbsp; 🟠 Perkiraan ke depan (belum terjadi)<br>
-        <span style='color:#484f58;font-size:.72rem;'>Garis biru menunjukkan seberapa akurat model memprediksi. Garis oranye adalah perkiraan hari-hari mendatang.</span>
+        <span style='color:#8b949e;font-size:.8rem;font-weight:500;'>Garis biru menunjukkan seberapa akurat model memprediksi. Garis oranye adalah perkiraan hari-hari mendatang.</span>
     </div>
 </div>
 """, unsafe_allow_html=True)
@@ -616,7 +621,7 @@ with tc:
                          margin=dict(l=0,r=0,t=36,b=0), height=260)
         st.plotly_chart(fe, use_container_width=True, config={"displayModeBar":False})
 
-    st.markdown("<div class='al-i'>💡 <strong>Cara membaca:</strong> Angka di bawah menunjukkan seberapa jauh prediksi meleset dari kunjungan nyata. Semakin kecil, semakin bagus.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='al-i' style='color:#ffffff;'>💡 <strong style='color:#79c0ff;'>Cara membaca:</strong> Angka di bawah menunjukkan seberapa jauh prediksi meleset dari kunjungan nyata. Semakin kecil, semakin bagus.</div>", unsafe_allow_html=True)
     s1,s2,s3,s4 = st.columns(4)
     s1.metric("Rata-rata Meleset",  f"{df_pred['error'].mean():.2f}")
     s2.metric("Variasi Kesalahan",  f"{df_pred['error'].std():.2f}")
